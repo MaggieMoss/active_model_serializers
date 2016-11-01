@@ -217,7 +217,23 @@ The object being serialized.
 
 #### #root
 
-PR please :)
+
+The root becomes the root key for the JSON object returned by the Serializer. 
+
+```diff
+class SomeController < ActionController::Base
++  serialization_scope :view_context
+
+  def current_user
+    User.new(id: 2, name: 'Bob', admin: true)
+  end
+
+  def index
+    @cats = Cat.all
+    render json: @cats, serializer: AdminUserSerializer, adapter: :json_api, root: 'cats'
+  end
+end
+```
 
 #### #scope
 
